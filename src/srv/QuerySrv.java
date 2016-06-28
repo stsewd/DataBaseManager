@@ -59,27 +59,43 @@ public class QuerySrv {
         database.updateElement(tableName, previewRow, newRow);
     }
 
-    public double funtionSum(String tableName, String colName) {
+    public ArrayList<ArrayList<String>> funtionSum(String tableName, String colName) {
         return database.functionSum(tableName, colName);
     }
 
-    public double funtionMin(String tableName, String colName) {
+    public ArrayList<ArrayList<String>> funtionMin(String tableName, String colName) {
         return database.functionMin(tableName, colName);
     }
 
-    public double funtionMax(String tableName, String colName) {
+    public ArrayList<ArrayList<String>> funtionMax(String tableName, String colName) {
         return database.functionMax(tableName, colName);
     }
 
-    public double funtionAverage(String tableName, String colName) {
+    public ArrayList<ArrayList<String>> funtionAverage(String tableName, String colName) {
         return database.functionAverage(tableName, colName);
     }
 
-    public int funtionCount(String tableName, String colName) {
+    public ArrayList<ArrayList<String>> funtionCount(String tableName, String colName) {
         return database.functionCount(tableName, colName);
     }
     
     public ArrayList<ArrayList<String>> search(String tableName, String subString) {
         return database.search(tableName, subString);
+    }
+
+    public ArrayList<ArrayList<String>> lessThan(String tableName, String colName, String value) {
+        return database.lessThan(tableName, colName, value);
+    }
+
+    public ArrayList<ArrayList<String>> greaterThan(String tableName, String colName, String value) {
+        return database.greaterThan(tableName, colName, value);
+    }
+
+    public ArrayList<ArrayList<String>> equalTo(String tableName, String colName, String value) {
+        return database.equalTo(tableName, colName, value);
+    }
+
+    public ArrayList<ArrayList<String>> unequalTo(String tableName, String colName, String value) {
+        return database.unequalTo(tableName, colName, value);
     }
 }
