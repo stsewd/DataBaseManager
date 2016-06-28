@@ -43,10 +43,13 @@ public class EditTableWindow extends javax.swing.JDialog {
         table = new javax.swing.JTable();
         deleteBtn = new javax.swing.JButton();
         editBtn = new javax.swing.JButton();
-        filterTF = new javax.swing.JTextField();
-        filterBtn = new javax.swing.JButton();
+        searchTF = new javax.swing.JTextField();
+        searchBtn = new javax.swing.JButton();
         closeBtn = new javax.swing.JButton();
         addBtn = new javax.swing.JButton();
+        actionCB = new javax.swing.JComboBox<>();
+        fieldCB = new javax.swing.JComboBox<>();
+        consutlBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -78,7 +81,12 @@ public class EditTableWindow extends javax.swing.JDialog {
             }
         });
 
-        filterBtn.setText("Filtrar");
+        searchBtn.setText("Buscar");
+        searchBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchBtnActionPerformed(evt);
+            }
+        });
 
         closeBtn.setText("Cerrar");
         closeBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -94,6 +102,15 @@ public class EditTableWindow extends javax.swing.JDialog {
             }
         });
 
+        actionCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Suma", "Promedio", "Máximo", "Mínimo", "Contar" }));
+
+        consutlBtn.setText("Consultar");
+        consutlBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                consutlBtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -102,20 +119,27 @@ public class EditTableWindow extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(filterTF, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(filterBtn)
-                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(addBtn)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(deleteBtn)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(editBtn)
-                        .addGap(4, 4, 4)
-                        .addComponent(closeBtn)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(closeBtn))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(searchTF, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(searchBtn))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(actionCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(fieldCB, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(consutlBtn)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -123,10 +147,15 @@ public class EditTableWindow extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(filterTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(filterBtn))
+                    .addComponent(searchTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(searchBtn))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(actionCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(fieldCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(consutlBtn))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 317, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 336, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(deleteBtn)
@@ -176,6 +205,40 @@ public class EditTableWindow extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_editBtnActionPerformed
 
+    private void consutlBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_consutlBtnActionPerformed
+        try {
+            String colName = (String) fieldCB.getSelectedItem();
+            String operation = (String) actionCB.getSelectedItem();
+            Object result;
+            if (operation.equalsIgnoreCase("suma"))
+                result = querySrv.funtionSum(tableName, colName);
+            else if (operation.equalsIgnoreCase("mínimo"))
+                result = querySrv.funtionMin(tableName, colName);
+            else if (operation.equalsIgnoreCase("máximo"))
+                result = querySrv.funtionMax(tableName, colName);
+            else if (operation.equalsIgnoreCase("promedio"))
+                result = querySrv.funtionAverage(tableName, colName);
+            else if (operation.equalsIgnoreCase("contar"))
+                result = querySrv.funtionCount(tableName, colName);
+            else
+                throw new RuntimeException("Debe seleccionar una acción válida.");
+            JOptionPane.showMessageDialog(null, result);
+        }catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+    }//GEN-LAST:event_consutlBtnActionPerformed
+
+    private void searchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBtnActionPerformed
+        try {
+            String subString = searchTF.getText();
+            ArrayList<ArrayList<String>> result = querySrv.search(tableName, subString);
+            loadTable(result);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+        
+    }//GEN-LAST:event_searchBtnActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -219,13 +282,16 @@ public class EditTableWindow extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> actionCB;
     private javax.swing.JButton addBtn;
     private javax.swing.JButton closeBtn;
+    private javax.swing.JButton consutlBtn;
     private javax.swing.JButton deleteBtn;
     private javax.swing.JButton editBtn;
-    private javax.swing.JButton filterBtn;
-    private javax.swing.JTextField filterTF;
+    private javax.swing.JComboBox<String> fieldCB;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JButton searchBtn;
+    private javax.swing.JTextField searchTF;
     private javax.swing.JTable table;
     // End of variables declaration//GEN-END:variables
     
@@ -247,6 +313,8 @@ public class EditTableWindow extends javax.swing.JDialog {
             model.addRow(row.toArray());
         table.setDefaultEditor(Object.class, null);
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        
+        loadColNamesCB(headerNames);
     }
 
     private void loadTable(String tableName) {
@@ -261,5 +329,10 @@ public class EditTableWindow extends javax.swing.JDialog {
         for (int indexCol = 0; indexCol < table.getColumnCount(); indexCol++)
             row.add(new DBField(table.getColumnName(indexCol), (String) table.getValueAt(indexRow, indexCol)));
         return row;
+    }
+
+    private void loadColNamesCB(Object[] headerNames) {
+        for (Object item : headerNames)
+            fieldCB.addItem((String) item);
     }
 }

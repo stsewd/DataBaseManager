@@ -58,4 +58,28 @@ public class QuerySrv {
     public void update(String tableName, ArrayList<DBField> previewRow, ArrayList<DBField> newRow) {
         database.updateElement(tableName, previewRow, newRow);
     }
+
+    public double funtionSum(String tableName, String colName) {
+        return database.functionSum(tableName, colName);
+    }
+
+    public double funtionMin(String tableName, String colName) {
+        return database.functionMin(tableName, colName);
+    }
+
+    public double funtionMax(String tableName, String colName) {
+        return database.functionMax(tableName, colName);
+    }
+
+    public double funtionAverage(String tableName, String colName) {
+        return database.functionAverage(tableName, colName);
+    }
+
+    public int funtionCount(String tableName, String colName) {
+        return database.functionCount(tableName, colName);
+    }
+    
+    public ArrayList<ArrayList<String>> search(String tableName, String subString) {
+        return database.search(tableName, subString);
+    }
 }

@@ -101,7 +101,7 @@ public class AddElementWindow extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(panelJP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(saveBtn)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(saveAndAddOtherBtn)
@@ -131,11 +131,10 @@ public class AddElementWindow extends javax.swing.JDialog {
 
     private void saveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveBtnActionPerformed
         saveElement();
-        this.dispose();
     }//GEN-LAST:event_saveBtnActionPerformed
 
     private void saveAndAddOtherBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveAndAddOtherBtnActionPerformed
-        saveElement();
+        save();
         cleanElements();
     }//GEN-LAST:event_saveAndAddOtherBtnActionPerformed
 
@@ -218,12 +217,9 @@ public class AddElementWindow extends javax.swing.JDialog {
     }
 
     private void saveElement() {
-        Map<String, String> fieldsToSave = new HashMap<>();
         try {
-            for (Entry<String, JTextField> entry : fields.entrySet())
-                fieldsToSave.put(entry.getKey(), entry.getValue().getText());        
-            querySrv.addElement(tableName, fieldsToSave);
-            JOptionPane.showMessageDialog(null, "Elemeto guardado exitosamente.");
+            save();
+            this.dispose();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
@@ -232,5 +228,13 @@ public class AddElementWindow extends javax.swing.JDialog {
     private void cleanElements() {
         for (Entry<String, JTextField> entry : fields.entrySet())
             entry.getValue().setText("");
+    }
+
+    private void save() {
+        Map<String, String> fieldsToSave = new HashMap<>();
+        for (Entry<String, JTextField> entry : fields.entrySet())
+            fieldsToSave.put(entry.getKey(), entry.getValue().getText());
+        querySrv.addElement(tableName, fieldsToSave);
+        JOptionPane.showMessageDialog(null, "Elemeto guardado exitosamente.");
     }
 }
